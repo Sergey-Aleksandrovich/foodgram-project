@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %} Мои подписки {% endblock %}
+{% load static %}
+{% load user_filters %}
+{% block style %}<link rel="stylesheet"href="{% static 'recipes/pages/myFollow.css' %}"/>{% endblock %}
+{% block content %}
+{% csrf_token %}
+<body class="body">
+    <main class="main container">
+        <div class="main__header">
+            <h1 class="main__title">Мои подписки</h1>
+        </div>
+        <div class="card-list">
+        {% include "user_item.html" with follows=page %}
+        </div>
+        {%  if page.paginator.num_pages > 1 %}
+            {%  include "pagination.html" with page=page %}
+        {% endif %}
+    </main>
+    <script src="{% static 'recipes/js/components/MainCards.js' %}"></script>
+    <script src="{% static 'recipes/js/components/Header.js' %}"></script>
+    <script src="{% static 'recipes/js/components/Subscribe.js' %}"></script>
+    <script src="{% static 'recipes/js/components/MyFollow.js' %}"></script>
+    <script src="{% static 'recipes/js/config/config.js' %}"></script>
+    <script src="{% static 'recipes/js/api/Api.js' %}"></script>
+    <script src="{% static 'recipes/js/myFollow.js' %}"></script>
+</body>
+{% endblock %}

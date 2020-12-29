@@ -1,0 +1,14 @@
+<ul class="tags">
+    <li class="tags__item">
+        <a id="breakfast" class="tags__checkbox tags__checkbox_style_orange {% if request.GET.breakfast == 'True'%}tags__checkbox_active{% endif %}" href="?{% if request.GET.breakfast == 'True'%}breakfast=False{% else %}breakfast=True{% endif %}{% if request.GET.lunch == 'True' %}&lunch=True{% else %}&lunch=False{% endif %}{% if request.GET.dinner == 'True' %}&dinner=True{% else %}&dinner=False{% endif %}"></a>
+        <span class="tags__label">Завтрак</span>
+    </li>
+    <li class="tags__item">
+        <a id="lunch" class="tags__checkbox tags__checkbox_style_green {% if request.GET.lunch == 'True'%}tags__checkbox_active{% endif %}" href="?{% if request.GET.breakfast == 'True'%}breakfast=True{% else %}breakfast=False{% endif %}{% if request.GET.lunch == 'True' %}&lunch=False{% else %}&lunch=True{% endif %}{% if request.GET.dinner == 'True' %}&dinner=True{% else %}&dinner=False{% endif %}"></a>
+        <span for="lunch" class="tags__label">Обед</span>
+    </li>
+    <li class="tags__item">
+        <a id="dinner" class="tags__checkbox tags__checkbox_style_purple {% if request.GET.dinner == 'True'%}tags__checkbox_active{% endif %}"href="?{% if request.GET.breakfast == 'True'%}breakfast=True{% else %}breakfast=False{% endif %}{% if request.GET.lunch == 'True' %}&lunch=True{% else %}&lunch=False{% endif %}{% if request.GET.dinner == 'True' %}&dinner=False{% else %}&dinner=True{% endif %}"></a>
+        <label for="dinner" class="tags__label">Ужин</label>
+    </li>
+</ul>
