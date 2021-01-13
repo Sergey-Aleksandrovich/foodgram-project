@@ -10,9 +10,10 @@
     {% csrf_token %}
     <body class="body">
     <main class="main container">
+    {% if purchases %}
         <div class="main__header">
         <h1 class="main__title">Список покупок</h1>
-    </div>
+        </div>
     <div class="card-list card-list_column">
         <ul class="shopping-list">
             {% for purchase in purchases %}
@@ -24,12 +25,19 @@
                         <h3 class="recipe__title">{{purchase.recipe.title}}</h3>
                         <p class="recipe__text"><span class="icon-time"></span> {{purchase.recipe.time}} мин.</p>
                     </div>
-                    <a href="{% url 'recipe' purchase.recipe.slug %}" class="shopping-list__button link">Удалить</a>
+                    <form method="POST" action="{% url 'APIunpurchases' purchase.recipe.pk %}">
+                    <a href="{% url 'purchases' %}" class="shopping-list__button link">Удалить</a>
+                    </form>
                 </li>
             {% endfor %}
         </ul>
         <a href="{% url 'download' %}"><button class="button button_style_blue">Скачать список</button></a>
     </div>
+    {% else %}
+        <div class="main__header">
+        <h1 class="main__title">Список покупок пуст</h1>
+        </div>
+    {% endif %}
     </main>
     <script src="{% static 'recipes/js/components/Header.js' %}"></script>
     <script src="{% static 'recipes/js/components/ShopList.js' %}"></script>

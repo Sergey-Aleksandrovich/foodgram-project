@@ -18,8 +18,6 @@ def addclassrow(field, args):
 
 @register.filter
 def favorite(recipe, request_user):
-    print(recipe)
-    print(request_user)
     if Favorites.objects.filter(recipe=recipe, user=request_user).exists():
         return True
     return False

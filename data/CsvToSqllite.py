@@ -1,7 +1,6 @@
 import csv
 import sqlite3
 
-
 # def csv_reader(file_obj):
 #     """
 #     Read a csv file

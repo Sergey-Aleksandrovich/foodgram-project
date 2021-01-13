@@ -29,6 +29,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'rest_framework',
     'sorl.thumbnail',
     'recipes',
     'users',
@@ -130,3 +131,5 @@ LOGIN_REDIRECT_URL = '/?breakfast=True&lunch=True&dinner=True'
 
 EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
+
+PAGINATOR_PER_PAGE = 6

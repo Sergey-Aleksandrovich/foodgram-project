@@ -1,12 +1,9 @@
-import random
-import string
-
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.db.models.signals import pre_save
-from django.utils.text import slugify as django_slugify
 
-# TODO: посмотреть правильный порядок импортов, и добавить модель рецептов!
+from recipes.utils import save_title_slug
+
 User = get_user_model()
 
 
@@ -81,47 +78,6 @@ class Purchases(models.Model):
 
     def __str__(self):
         return f'user-{self.user}->recipe-{self.recipe}'
-
-
-alphabet = {'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd', 'е': 'e',
-            'ё': 'yo', 'ж': 'zh', 'з': 'z', 'и': 'i',
-            'й': 'j', 'к': 'k', 'л': 'l', 'м': 'm', 'н': 'n', 'о': 'o',
-            'п': 'p', 'р': 'r', 'с': 's', 'т': 't',
-            'у': 'u', 'ф': 'f', 'х': 'kh', 'ц': 'ts', 'ч': 'ch', 'ш': 'sh',
-            'щ': 'shch', 'ы': 'i', 'э': 'e', 'ю': 'yu',
-            'я': 'ya'}
-
-
-def slugify(s):
-    return django_slugify(''.join(alphabet.get(w, w) for w in s.lower()))
-
-
-def random_string_generator(size=10,
-                            chars=string.ascii_lowercase + string.digits):
-    return ''.join(random.choice(chars) for _ in range(size))
-
-
-def unique_slug_generator(instance, new_slug=None):
-    if new_slug is not None:
-        slug = new_slug
-    else:
-
-        slug = slugify(instance.title)
-
-    Klass = instance.__class__
-    qs_exists = Klass.objects.filter(slug=slug).exists()
-    if qs_exists:
-        new_slug = "{slug}-{randstr}".format(
-            slug=slug,
-            randstr=random_string_generator(size=4)
-        )
-        return unique_slug_generator(instance, new_slug=new_slug)
-    return slug
-
-
-def save_title_slug(sender, instance, *args, **kwargs):
-    if not instance.slug:
-        instance.slug = unique_slug_generator(instance)
 
 
 pre_save.connect(save_title_slug, sender=Recipes)

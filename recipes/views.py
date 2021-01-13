@@ -1,16 +1,15 @@
-import json
-
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.http import JsonResponse, HttpResponse
-from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.decorators import method_decorator
 from django.views.generic.base import TemplateView, View
 from fpdf import FPDF
 
+from foodgram.settings import PAGINATOR_PER_PAGE
 from .forms import RecipesForm
-from .models import IngredientList, Ingredients, Recipes, Favorites, User, \
-    Follow, Purchases
+from .models import (
+    Favorites, Follow, IngredientList, Ingredients, Purchases, Recipes, User)
 
 
 class PDF(FPDF):
@@ -70,16 +69,6 @@ def check_tegs(request):
     return result
 
 
-@login_required
-def ingredients_list(request):
-    if request.method == 'GET' and request.GET['query']:
-        ingredients = list(IngredientList.objects.filter(
-            title__istartswith=request.GET['query']).values())
-    else:
-        ingredients = None
-    return JsonResponse(ingredients, safe=False)
-
-
 def index_view(request):
     tags = check_tegs(request)
     recipe_list = Recipes.objects.filter(tags__in=tags).select_related(
@@ -93,7 +82,7 @@ def index_view(request):
     else:
         purchases_recipes = tuple()
         favorites_recipes = tuple()
-    paginator = Paginator(recipe_list, 6)
+    paginator = Paginator(recipe_list, PAGINATOR_PER_PAGE)
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
     return render(request, 'index.html',
@@ -117,10 +106,10 @@ def profile_view(request, username):
     else:
         favorites_recipes = tuple()
         following = False
-    paginator = Paginator(recipe_list, 6)
+    paginator = Paginator(recipe_list, PAGINATOR_PER_PAGE)
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
-    return render(request, 'Profile.html',
+    return render(request, 'profile.html',
                   {'page': page, 'paginator': paginator,
                    'favorites_recipes': favorites_recipes,
                    'author': author, 'following': following})
@@ -140,7 +129,7 @@ def recipe_view(request, slug):
         following = False
         purchase = False
 
-    return render(request, 'SinglePage.html',
+    return render(request, 'single_page.html',
                   {'favorite': favorites, 'recipe': recipe,
                    'following': following, 'purchase': purchase})
 
@@ -198,12 +187,13 @@ def recipe_edit_view(request, slug):
             recipe_form.tags.add(*tags)
             recipe_form.save()
             return redirect(f'/recipe/{slug}')
-    return render(request, 'formRecipe.html', {'form': form, 'recipe': recipe})
+    return render(request, 'form_recipe.html',
+                  {'form': form, 'recipe': recipe})
 
 
 @method_decorator(login_required, name='dispatch')
-class FavoriteView(View):
-    template_name = 'Favorites.html'
+class FavoritesView(View):
+    template_name = 'favorites.html'
 
     def get(self, request, *args, **kwargs):
         tags = check_tegs(request)
@@ -220,7 +210,7 @@ class FavoriteView(View):
         else:
             favorites_recipes = tuple()
             purchases_recipes = tuple()
-        paginator = Paginator(recipe_list, 6)
+        paginator = Paginator(recipe_list, PAGINATOR_PER_PAGE)
         page_number = request.GET.get('page')
         page = paginator.get_page(page_number)
         return render(request, self.template_name,
@@ -228,53 +218,20 @@ class FavoriteView(View):
                        'favorites_recipes': favorites_recipes,
                        'purchases_recipes': purchases_recipes})
 
-    def post(self, request):
-        body_unicode = request.body.decode('utf-8')
-        body = json.loads(body_unicode)
-        recipe_id = body['id']
-        recipe = get_object_or_404(Recipes, pk=recipe_id)
-        Favorites.objects.get_or_create(user=request.user, recipe=recipe)
-        return JsonResponse("succes", safe=False)
-
-    def delete(self, request, recipe_id):
-        recipe = get_object_or_404(Recipes, pk=recipe_id)
-        favorite = Favorites.objects.filter(user=request.user, recipe=recipe)
-        if favorite:
-            favorite.delete()
-            return JsonResponse("succes", safe=False)
-        return HttpResponse(status=403)
-
 
 @method_decorator(login_required, name='dispatch')
 class PurchasesView(View):
-    template_name = 'ShopList.html'
+    template_name = 'shop_list.html'
 
     def get(self, request, *args, **kwargs):
-        purchases = Purchases.objects.filter(
-            user=request.user).select_related('recipe').order_by(
-            '-pk')
+        purchases = Purchases.objects.filter(user=request.user).select_related(
+            'recipe').order_by('-pk')
         return render(request, self.template_name,
                       {'purchases': purchases, })
 
-    def post(self, request):
-        body_unicode = request.body.decode('utf-8')
-        body = json.loads(body_unicode)
-        recipe_id = body['id']
-        recipe = get_object_or_404(Recipes, pk=recipe_id)
-        Purchases.objects.get_or_create(user=request.user, recipe=recipe)
-        return JsonResponse("succes", safe=False)
 
-    def delete(self, request, recipe_id):
-        recipe = get_object_or_404(Recipes, pk=recipe_id)
-        purchase = Purchases.objects.filter(user=request.user, recipe=recipe)
-        if purchase:
-            purchase.delete()
-            return JsonResponse("succes", safe=False)
-        return HttpResponse(status=403)
-
-
-class FollowView(View):
-    template_name = 'MyFollow.html'
+class FollowsView(View):
+    template_name = 'my_follow.html'
 
     @method_decorator(login_required)
     def get(self, request, *args, **kwargs):
@@ -283,33 +240,16 @@ class FollowView(View):
         author = []
         for follow in follows:
             author.append(follow.author)
-        paginator = Paginator(follows, 6)
+        paginator = Paginator(follows, PAGINATOR_PER_PAGE)
         page_number = request.GET.get('page')
         page = paginator.get_page(page_number)
         return render(request, self.template_name,
                       {'page': page, 'paginator': paginator, })
 
-    @method_decorator(login_required)
-    def post(self, request):
-        body_unicode = request.body.decode('utf-8')
-        body = json.loads(body_unicode)
-        author_id = body['id']
-        Follow.objects.get_or_create(user=request.user, author_id=author_id)
-        return JsonResponse("succes", safe=False)
-
-    @method_decorator(login_required)
-    def delete(self, request, author_id):
-        author = get_object_or_404(User, pk=author_id)
-        follow = Follow.objects.filter(user=request.user, author=author)
-        if follow:
-            follow.delete()
-            return JsonResponse("succes", safe=False)
-        return HttpResponse(status=403)
-
 
 class RecipesFormView(View):
     form_class = RecipesForm
-    template_name = 'formRecipe.html'
+    template_name = 'form_recipe.html'
 
     @method_decorator(login_required)
     def get(self, request, *args, **kwargs):
@@ -318,10 +258,8 @@ class RecipesFormView(View):
 
     @method_decorator(login_required)
     def post(self, request, *args, **kwargs):
-        print(request.POST)
         new_request_post = request_add_ingredients(request.POST)
         form = self.form_class(new_request_post, files=request.FILES)
-
         if form.is_valid():
             recipes = form.save(commit=False)
             recipes.author = request.user
@@ -331,7 +269,6 @@ class RecipesFormView(View):
                     kind=IngredientList.objects.get(title=ingredient[0]),
                     quantity=ingredient[1])
                 if ingredient_model.exists():
-                    print(recipes)
                     recipes.ingredients.add(ingredient_model[0].pk)
                 else:
                     ingredient_model = Ingredients.objects.create(

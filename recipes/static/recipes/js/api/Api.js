@@ -4,7 +4,7 @@ class Api {
         this.apiUrl =  apiUrl;
     }
   getPurchases () {
-    return fetch(`/purchases`, {
+    return fetch(`/api/v1/purchases/`, {
       headers: {
         'Content-Type': 'application/json'
       }
@@ -17,7 +17,7 @@ class Api {
       })
   }
   addPurchases (id) {
-    return fetch(`/purchases`, {
+    return fetch(`/api/v1/purchases/`, {
       method: 'POST',
       headers: {
         'X-CSRFToken': document.getElementsByName('csrfmiddlewaretoken')[0].value,
@@ -35,7 +35,7 @@ class Api {
       })
   }
   removePurchases (id){
-    return fetch(`/unpurchases/${id}`, {
+    return fetch(`/api/v1/unpurchases/${id}`, {
       method: 'DELETE',
       headers: {
         'X-CSRFToken': document.getElementsByName('csrfmiddlewaretoken')[0].value,
@@ -50,7 +50,7 @@ class Api {
       })
   }
   addSubscriptions(id) {
-    return fetch(`/subscriptions`, {
+    return fetch(`/api/v1/subscriptions/`, {
       method: 'POST',
       headers: {
         'X-CSRFToken': document.getElementsByName('csrfmiddlewaretoken')[0].value,
@@ -68,7 +68,7 @@ class Api {
       })
   }
   removeSubscriptions (id) {
-    return fetch(`/unsubscriptions/${id}`, {
+    return fetch(`/api/v1/unsubscriptions/${id}`, {
       method: 'DELETE',
       headers: {
         'X-CSRFToken': document.getElementsByName('csrfmiddlewaretoken')[0].value,
@@ -85,7 +85,7 @@ class Api {
 
 
   addFavorites (id)  {
-    return fetch(`/favorites`, {
+    return fetch(`/api/v1/favorites/`, {
       method: 'POST',
       headers: {
         'X-CSRFToken': document.getElementsByName('csrfmiddlewaretoken')[0].value,
@@ -103,7 +103,7 @@ class Api {
         })
   }
   removeFavorites (id) {
-    return fetch(`/unfavorites/${id}`, {
+    return fetch(`/api/v1/unfavorites/${id}`, {
       method: 'DELETE',
       headers: {
         'X-CSRFToken': document.getElementsByName('csrfmiddlewaretoken')[0].value,
@@ -118,7 +118,7 @@ class Api {
         })
   }
     getIngredients  (text)  {
-        return fetch(`/ingredients/?query=${text}`, {
+        return fetch(`/api/v1/ingredients/?query=${text}`, {
             headers: {
                 'Content-Type': 'application/json'
             }
