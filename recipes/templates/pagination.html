@@ -1,0 +1,13 @@
+<nav class="pagination" aria-label="Search results pages">
+    <ul class="pagination__container">
+        {%  if page.has_previous %}
+            <li class="pagination__item"><a class="pagination__link link" href="?{% if request.GET.breakfast == 'True'%}breakfast=True{% else %}breakfast=False{% endif %}{% if request.GET.lunch == 'True' %}&lunch=True{% else %}&lunch=False{% endif %}{% if request.GET.dinner == 'True' %}&dinner=True{% else %}&dinner=False{% endif %}&page={{ page.previous_page_number }}"><span class="icon-left"></span></a></li>
+        {% endif %}
+        {% for page_number in page.paginator.page_range %}
+            <li class="pagination__item {% if page_number == page.number %}pagination__item_active{% endif %}"><a class="pagination__link link" href="?{% if request.GET.breakfast == 'True'%}breakfast=True{% else %}breakfast=False{% endif %}{% if request.GET.lunch == 'True' %}&lunch=True{% else %}&lunch=False{% endif %}{% if request.GET.dinner == 'True' %}&dinner=True{% else %}&dinner=False{% endif %}&page={{ page_number }}">{{ page_number }}</a></li>
+        {% endfor %}
+        {%  if page.has_next %}
+            <li class="pagination__item"><a class="pagination__link link" href="?{% if request.GET.breakfast == 'True'%}breakfast=True{% else %}breakfast=False{% endif %}{% if request.GET.lunch == 'True' %}&lunch=True{% else %}&lunch=False{% endif %}{% if request.GET.dinner == 'True' %}&dinner=True{% else %}&dinner=False{% endif %}&page={{ page.next_page_number }}"><span class="icon-right"></span></a></li>
+        {% endif %}
+    </ul>
+</nav>

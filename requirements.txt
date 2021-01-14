@@ -1,0 +1,14 @@
+django==3.1.2
+Pillow==8.0.0
+sorl-thumbnail== 12.7.0
+fpdf==1.7.2
+asgiref==3.2.10
+sqlparse==0.4.1
+pytz==2020.1
+djangorestframework==3.12.2
+
+
+
+
+
+
