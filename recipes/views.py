@@ -284,3 +284,10 @@ class RecipesFormView(View):
 
 class RecipesFormViewSuccess(TemplateView):
     template_name = "creation_recipe_done.html"
+
+
+def page_not_found(request, exception):
+    return render(request, "errs/404.html", {"path": request.path}, status=404)
+
+def server_error(request):
+    return render(request, "errs/500.html", status=500)
