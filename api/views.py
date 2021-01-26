@@ -70,3 +70,5 @@ class PurchasesAPIView(APIView):
             purchase.delete()
             return JsonResponse("succes", safe=False)
         return HttpResponse(status=403)
+
+
