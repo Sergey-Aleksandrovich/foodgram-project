@@ -46,7 +46,7 @@
                     {% if user.is_authenticated %}
                     <li class="single-card__item"><button class="button button_style_light-blue{% if purchase %}-outline" name="purchases"><span class="icon-check button__icon"></span> Рецепт добавлен{% else %}" name="purchases" data-out><span class="icon-plus button__icon"></span>Добавить в покупки{% endif %}</button></li>
 
-                    <li class="single-card__item"><button class="button button_style_light-blue button_size_subscribe" name="subscribe" {% if following %}>Отписаться от автора{% else %}data-out >Подписаться на автора{% endif %}</button></li>
+                    {% if user.username != recipe.author.username %}<li class="single-card__item"><button class="button button_style_light-blue button_size_subscribe" name="subscribe" {% if following %}>Отписаться от автора{% else %}data-out >Подписаться на автора{% endif %}</button></li>{% endif %}
                     {% endif %}
                 </ul>
                 <div class="single-card__section">

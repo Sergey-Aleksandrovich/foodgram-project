@@ -42,6 +42,9 @@ class SubscriptionsAPIView(APIView):
 
     def post(self, request):
         author_id = request.data.get('id')
+        author = get_object_or_404(User, pk=author_id)
+        if request.user.username == author.username:
+            return HttpResponse(status=403)
         Follow.objects.get_or_create(user=request.user, author_id=author_id)
         return JsonResponse("succes", safe=False)
 
@@ -70,5 +73,3 @@ class PurchasesAPIView(APIView):
             purchase.delete()
             return JsonResponse("succes", safe=False)
         return HttpResponse(status=403)
-
-
