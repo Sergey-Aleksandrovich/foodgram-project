@@ -12,7 +12,7 @@
                     <div class="recipe">
                         <a href="{% url 'recipe' recipe.slug %}" class="recipe__image" target="_blank">
                             {% thumbnail recipe.image "480x480" crop="center" upscale=True as im %}
-                            <img border="0"  src="{{ im.url }}" alt="Картинка блюда" class="recipe__image">
+                            <img src="{{ im.url }}" alt="Картинка блюда" class="recipe__image">
                             {% endthumbnail %}
                         </a>
                         <h3 class="recipe__title">{{recipe.title}}</h3>

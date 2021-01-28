@@ -75,6 +75,7 @@
             {% endfor %}
         <div class="form__footer">
             <button class="button button_style_blue">{% if recipe %}Редактировать рецепт{% else %}Создать рецепт{% endif %}</button>
+            {% if recipe %}<a style="margin-left: 2.5em" href="{% url 'recipe_delete' recipe.slug %}" class="form__ingredient-link">Удалить</a>{% else %}{% endif %}
         </div>
         </form>
     </div>

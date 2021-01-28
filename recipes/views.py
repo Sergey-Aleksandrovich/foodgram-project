@@ -160,8 +160,6 @@ def purchases_download_view(request):
 def recipe_edit_view(request, slug):
     author = get_object_or_404(User, username=request.user)
     recipe = get_object_or_404(Recipes, slug=slug, author=author)
-    if not recipe:
-        return redirect(f'/{slug}')
     form = RecipesForm(request.POST or None, files=request.FILES or None,
                        instance=recipe)
     if request.method == 'POST':
@@ -189,6 +187,14 @@ def recipe_edit_view(request, slug):
             return redirect(f'/recipe/{slug}')
     return render(request, 'form_recipe.html',
                   {'form': form, 'recipe': recipe})
+
+
+@login_required
+def recipe_delete_view(request, slug):
+    author = get_object_or_404(User, username=request.user)
+    recipe = get_object_or_404(Recipes, slug=slug, author=author)
+    recipe.delete()
+    return redirect('delete_recipe_success')
 
 
 @method_decorator(login_required, name='dispatch')
@@ -285,9 +291,24 @@ class RecipesFormView(View):
 class RecipesFormViewSuccess(TemplateView):
     template_name = "creation_recipe_done.html"
 
+    def get(self, request, *args, **kwargs):
+        author = get_object_or_404(User, username=request.user)
+        context = self.get_context_data(**kwargs)
+        return self.render_to_response(context)
+
+
+class RecipesFormViewDeleteSuccess(TemplateView):
+    template_name = "delete_recipe_done.html"
+
+    def get(self, request, *args, **kwargs):
+        author = get_object_or_404(User, username=request.user)
+        context = self.get_context_data(**kwargs)
+        return self.render_to_response(context)
+
 
 def page_not_found(request, exception):
     return render(request, "errs/404.html", {"path": request.path}, status=404)
+
 
 def server_error(request):
     return render(request, "errs/500.html", status=500)

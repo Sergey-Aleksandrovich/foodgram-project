@@ -1,0 +1,40 @@
+version: '3.8'
+
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:
+
+services:
+  db:
+    image: postgres:12.5
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - ./db.env
+  web:
+    build: .
+    restart: always
+    volumes:
+      - static_volume:/code/static/
+      - media_volume:/code/media/
+    depends_on:
+      - db
+    env_file:
+     - ./db.env
+     - ./django.env
+    command: gunicorn foodgram.wsgi:application --bind 0.0.0.0:8000
+  nginx:
+    image: nginx:1.19.3
+    volumes:
+      - static_volume:/etc/nginx/static:ro
+      - media_volume:/etc/nginx/media:ro
+      - ./nginx/templates:/etc/nginx/templates
+      - /etc/letsencrypt/:/etc/letsencrypt/
+    env_file:
+      - ./nginx.env
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - web
