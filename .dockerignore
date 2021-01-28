@@ -1,0 +1,8 @@
+venv
+django.env
+db.env
+nginx.env
+docker-compose.yaml
+Dockerfile
+nginx
+README.md
