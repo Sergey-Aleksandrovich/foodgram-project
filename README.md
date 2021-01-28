@@ -36,4 +36,5 @@ docker-compose exec web python manage.py loaddata fixtures.json
 ### В фикстурах уже есть суперпользователь
 
 Логин:admin
+
 Пароль:1231230
