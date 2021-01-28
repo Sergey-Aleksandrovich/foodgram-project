@@ -20,7 +20,7 @@ foodgram-project - это проект, в котором возможно до�
 docker-compose up
 ```
 
-Команда для выполнения миграций
+### Команда для выполнения миграций
 
 ```
 docker-compose exec web python manage.py migrate
@@ -33,3 +33,7 @@ docker-compose exec web python manage.py migrate
 ```
 docker-compose exec web python manage.py loaddata fixtures.json
 ```
+### В фикстурах уже есть суперпользователь
+
+Логин:admin
+Пароль:1231230
