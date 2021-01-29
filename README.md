@@ -24,7 +24,7 @@ https://test-recipes.tk/?breakfast=True&lunch=True&dinner=True
 docker-compose up
 ```
 
-### Команда для выполнения миграций
+### Выполнение миграций
 
 ```
 docker-compose exec web python manage.py migrate
@@ -38,7 +38,7 @@ docker-compose exec web python manage.py migrate
 docker-compose exec web python manage.py loaddata fixtures.json
 ```
 
-### Команда для cбора статики
+### Сбор статики
 
 ```
 docker-compose exec web python manage.py collectstatic
