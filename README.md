@@ -30,12 +30,6 @@ docker-compose up
 docker-compose exec web python manage.py migrate
 ```
 
-### Команда для cбора статики
-
-```
-docker-compose exec web python manage.py collectstatic
-```
-
 ### Заполнение базы начальными данными
 
 Команда для заполнения базы начальными данными
@@ -43,6 +37,13 @@ docker-compose exec web python manage.py collectstatic
 ```
 docker-compose exec web python manage.py loaddata fixtures.json
 ```
+
+### Команда для cбора статики
+
+```
+docker-compose exec web python manage.py collectstatic
+```
+
 ### В фикстурах уже есть суперпользователь
 
 Логин: admin
