@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load static %}
+{% block style %}
+    <link rel="stylesheet"
+          href="{% static 'recipes/pages/single.css' %}"/>{% endblock %}
+{% block title %}Фото кошечки{% endblock %}
+{% block content %}
+    <body class="body">
+    <main class="main container">
+        <img src="{% static 'about/i/1.jpg' %}" alt="Автор проекта" vspace="30" hspace="30">
+        <img src="{% static 'about/i/2.jpg' %}" alt="Автор проекта" vspace="30" hspace="30">
+        <img src="{% static 'about/i/3.jpg' %}" alt="Автор проекта" vspace="30" hspace="30">
+        <img src="{% static 'about/i/4.jpg' %}" alt="Автор проекта" vspace="30" hspace="30">
+        <img src="{% static 'about/i/5.jpg' %}" alt="Автор проекта" vspace="30" hspace="30">
+        <img src="{% static 'about/i/6.jpg' %}" alt="Автор проекта" vspace="30" hspace="30">
+    </main>
+    </body>
+{% endblock %}

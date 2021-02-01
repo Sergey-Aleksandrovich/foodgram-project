@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% load static %}
+{% block style %}
+    <link rel="stylesheet"
+          href="{% static 'recipes/pages/single.css' %}"/>{% endblock %}
+{% block title %}Об авторе проекта{% endblock %}
+{% block content %}
+    <body class="body">
+    <main class="main container">
+        <div class="main__header">
+            <h1 class="single-card__title">Об авторе</h1>
+        </div>
+        <br>
+        <div class="col-md-3 mb-3 mt-1">
+            <div class="card">
+                <div class="card-body"><h3 class="single-card__section-title">
+                    Главное:</h3>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <div style="margin-bottom:10px;">
+                                <font size="4" face="Arial">
+                                    <a href="https://github.com/Sergey-Aleksandrovich/foodgram-project">Этот
+                                        проект на ГитХабе</a>
+                                </font>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div style="margin-bottom:10px;">
+                                <font size="4" face="Arial">Резюме на hh</font>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div style="margin-bottom:10px;">
+                                <font size="4" face="Arial">
+                                    <a href="{% url 'about:cat' %}">Та, без
+                                        которой ничего бы не получилось</a>
+                                </font>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div style="margin-bottom:10px;">
+                                <font size="4" face="Arial">
+                                    <a href="{% url 'about:i' %}">Мои фотокарточки</a>
+                                </font>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="single-card__section">
+            <h3 class="single-card__section-title">Кратко о моей
+                жизни:</h3>
+            <p class=" single-card__section-text">
+                Привет, меня зовут Калинкин
+                Сергей и я работал над данным проектом.
+                Проект создавался для демонстрации моих навыков работодателю,
+                надеюсь этой цели я смог добиться. Если конкретнее, то
+                разрабатывал бэкенд часть, конечно много залазил в HTML код и
+                немного в JS.
+            </p>
+            <p class=" single-card__section-text">
+                Я родился и вырос в городе Новосибирске, всегда увлекали точные
+                науки, поэтому учился на строителя, чем занимался около 6 лет
+                попутно работая инженером технадзора и проектировщиком, во
+                время этого увлекательного пути любил автоматизировать свою
+                учебу/работу, но инструментов в виде exel, mathcad и ещё
+                нескольких специальных программ стало не хватать и захотелось
+                расширить свои возможности, с помощью языка программирования
+                Python, так и начался мой путь к бэкенд разработке. Стал
+                понимать, что IT сфера в целом мне ближе и было принято решение
+                развиваться как разработчик.
+            </p>
+            <p class=" single-card__section-text">
+                С радостью расскажу более подробно, чем занимался на работах,
+                почему занимался написанием научных статей и как адаптироваться
+                к катанию на сноуборде если вес изменился с 75 до 90 кг.</p>
+        </div>
+    </main>
+    </body>
+{% endblock %}
+

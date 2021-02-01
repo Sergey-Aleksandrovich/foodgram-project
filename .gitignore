@@ -12,7 +12,7 @@ __pycache__
 *.bak
 
 # Environments
-.env
+foodgram/.env
 .venv
 env/
 venv/

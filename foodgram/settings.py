@@ -11,10 +11,13 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 import os
+
 import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+env = environ.Env()
+environ.Env.read_env()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -23,8 +26,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'ou0x+#t_g9qree@6g5h!j*fuvze(rf2+tk@ayqxe0n264@j+k7'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = int(os.environ.get("DEBUG", default=0))
-
+DEBUG = env.bool('DEBUG', default=False)
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 
 # Application definition
@@ -32,6 +34,7 @@ ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 INSTALLED_APPS = [
     'rest_framework',
     'sorl.thumbnail',
+    'about',
     'recipes',
     'users',
     'django.contrib.staticfiles',
@@ -74,8 +77,7 @@ WSGI_APPLICATION = 'foodgram.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-env = environ.Env()
-environ.Env.read_env()
+
 
 DATABASES = {
     'default': {
@@ -126,7 +128,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'recipes/static'),
-    os.path.join(BASE_DIR, 'users/static')
+    os.path.join(BASE_DIR, 'users/static'),
+    os.path.join(BASE_DIR, 'about/static')
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 

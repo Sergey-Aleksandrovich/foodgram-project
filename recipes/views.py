@@ -291,19 +291,9 @@ class RecipesFormView(View):
 class RecipesFormViewSuccess(TemplateView):
     template_name = "creation_recipe_done.html"
 
-    def get(self, request, *args, **kwargs):
-        author = get_object_or_404(User, username=request.user)
-        context = self.get_context_data(**kwargs)
-        return self.render_to_response(context)
-
 
 class RecipesFormViewDeleteSuccess(TemplateView):
     template_name = "delete_recipe_done.html"
-
-    def get(self, request, *args, **kwargs):
-        author = get_object_or_404(User, username=request.user)
-        context = self.get_context_data(**kwargs)
-        return self.render_to_response(context)
 
 
 def page_not_found(request, exception):

@@ -23,9 +23,10 @@ handler500 = "recipes.views.server_error"  # noqa
 
 urlpatterns = [
     path('auth/', include("users.urls")),
-    path('', include("recipes.urls")),
     path('api/v1/', include("api.urls")),
     path('admin/', admin.site.urls),
+    path('about/', include(('about.urls','about'), namespace='about')),
+    path('', include("recipes.urls")),
 ]
 
 if settings.DEBUG:
