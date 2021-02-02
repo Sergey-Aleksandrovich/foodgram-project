@@ -34,7 +34,8 @@ jobs:
             cd ~/foodgram-project/
             sudo docker stop $(sudo docker ps -a -q) || true
             sudo docker rm $(sudo docker ps -a -q) || true
-            sudo docker-compose up -d
+            sudo docker-compose build || true
+            sudo docker-compose up -d || true
             sudo docker-compose exec web python manage.py collectstatic
             
   send_message:
