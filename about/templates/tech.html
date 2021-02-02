@@ -1,36 +1,35 @@
 {% extends "base.html" %}
 {% load static %}
-{% block style %}<link rel="stylesheet" href="{% static 'recipes/pages/index.css' %}"/>{% endblock %}
-{% block title %}Используемые технологии{% endblock %}
+{% block style %}
+    <link rel="stylesheet"
+          href="{% static 'recipes/pages/single.css' %}"/>{% endblock %}
+{% block title %}Технологии{% endblock %}
 {% block content %}
-{% load user_filters %}
-  <main role="main" class="container">
-    <div class="row">
-      <div class="col-md-3 mb-3 mt-1">
-        <div class="card">
-          <div class="card-body">
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item">
-                <div class="h3">
-                  Об авторе
-                </div> 
-              </li>
-              <li class="list-group-item">
-                <div class="h6 text-muted">
-                  Полезный короткий текст
-                </div>
-              </li>
-            </ul>                                               
-          </div>                    
-        </div>                
-      </div>
-      <div class="col-md-9">
-        <div class="card-body">                    
-          <div class="card-text">
-            <p>Текст страницы "Об авторе"</p>
-          </div>                    
-        </div>                
-      </div>            
-    </div>        
-  </main>
-{% endblock %} 
+    <body class="body">
+    <main class="main container">
+        <div class="main__header">
+            <h1 class="single-card__title">Технологии</h1>
+        </div>
+            <p><font size="5" face="Arial"><b>
+                В проекте использованы следующие технологии:
+            </b></font></p>
+            <ol>
+                {% for type in type_list %}
+                    <li>
+                        <ul>
+                            <p><font size="4" face="Arial"><b>{{ type.0 }}</b></font></p>
+                            {% for tech in  type|slice:"1:" %}
+                                <li style="margin-bottom:15px;" ,
+                                    style="margin-top:10px;">
+                                    <font size="4" face="Arial">
+                                        {{ tech }}
+                                    </font>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% endfor %}
+            </ol>
+    </main>
+    </body>
+{% endblock %}
