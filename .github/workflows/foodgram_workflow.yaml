@@ -31,11 +31,11 @@ jobs:
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_KEY }}
           script: 
-            cd ~/foodgram-project/
+            cd ~/foodgram-project
             sudo docker stop $(sudo docker ps -a -q)
             sudo docker rm $(sudo docker ps -a -q)
             sudo docker-compose up -d
-            docker-compose exec web python manage.py collectstatic
+            sudo docker-compose exec web python manage.py collectstatic
             
   send_message:
     runs-on: ubuntu-latest
