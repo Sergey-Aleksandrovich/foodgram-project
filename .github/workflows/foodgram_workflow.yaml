@@ -32,8 +32,8 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             cd ~/foodgram-project/
-            sudo docker stop $(docker ps -a -q) || true
-            sudo docker rm $(docker ps -a -q) || true
+            sudo docker stop $(sudo docker ps -a -q) || true
+            sudo docker rm $(sudo docker ps -a -q) || true
             sudo docker-compose up -d
             sudo docker-compose exec web python manage.py collectstatic
             
