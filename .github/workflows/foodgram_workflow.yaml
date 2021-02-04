@@ -32,10 +32,10 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             cd ~/foodgram-project/
-            sudo docker stop $(sudo docker ps -a -q) || true
-            sudo docker rm $(sudo docker ps -a -q) || true
-            sudo docker-compose build || true
-            sudo docker-compose up -d || true
+            sudo docker stop $(sudo docker ps -a -q)
+            sudo docker rm $(sudo docker ps -a -q)
+            sudo docker-compose build
+            sudo docker-compose up -d
             sudo docker-compose exec -it web python manage.py collectstatic
             
   send_message:
