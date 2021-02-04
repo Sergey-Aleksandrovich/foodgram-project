@@ -21,14 +21,15 @@
                              Пожалуйста, авторизуйтесь.
                          </p>
                     {% endif %}
+                {% if  form.errors %}
+                    <span class="form__error">Пожалуйста, введите правильные имя пользователя и пароль. Оба поля могут быть чувствительны к регистру</span>
+                {% endif %}
+                <br>
                 {% for field in form %}
                     <div class="form__group" aria-required={% if field.field.required %}"true"{% else %}"false"{% endif %}>
                         <label for="{{ field.id_for_label }}" class="form__label">{{ field.label }}</label>
                         <div class="form__field-group">
                             {{ field | addclass:"form__input"}}
-                            {% if forloop.last and form.errors %}
-                                <span class="form__error">Имя пользователя и пароль не совпадают. Введите правильные данные.</span>
-                            {% endif %}
                         </div>
                     </div>
                 {% endfor %}

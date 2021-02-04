@@ -64,7 +64,6 @@
                     {% elif field.label == 'Описание'%}
                         {{ field | addclassrow:"form__textarea,8"}}
                     {% elif field.label == 'Загрузить фото' %}
-                        <label for="id_file" class="form__file-button">Выбрать файл</label>
                         {{ field | addclass:"form__file" }}
                     {% else %}
                         {{ field }}
