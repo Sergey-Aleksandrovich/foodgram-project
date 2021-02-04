@@ -49,3 +49,17 @@ jobs:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
           message: ${{ github.workflow }} успешно выполнен!
+
+  test:
+    runs-on: ubuntu-latest
+    needs: send_message
+    steps:
+      -
+        name: executing remote ssh commands to deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST1 }}
+          username: ${{ secrets.USER1 }}
+          key: ${{ secrets.SSH_KEY1 }}
+          script: |
+            cd ~/foodgram-project/
