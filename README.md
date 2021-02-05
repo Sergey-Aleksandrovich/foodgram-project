@@ -1,3 +1,4 @@
+![foodgram workflow](https://github.com/Sergey-Aleksandrovich/foodgram-project/workflows/foodgram%20workflow/badge.svg)
 # Название проекта
 
 foodgram-project - это проект, в котором возможно добавлять понравившиеся рецепты в покупки и получать список с необходимыми ингредиентами.
