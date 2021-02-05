@@ -28,10 +28,14 @@ class RecipesForm(ModelForm):
     def clean_ingredients(self):
         set_ingredients = set()
         ingredients_form = self.cleaned_data['ingredients']
+        print(ingredients_form)
         ingredients_db = list(IngredientList.objects.values('title'))
         for ingredient_form in ingredients_form:
             set_ingredients.add(ingredient_form[0])
             for ingredient_db in ingredients_db:
+                if int(ingredient_form[1]) <= 0:
+                    raise ValidationError(
+                        "Количество ингредиента должно быть больше 0")
                 if ingredient_db['title'] == ingredient_form[0]:
                     break
                 if ingredients_db[-1] == ingredient_db:
