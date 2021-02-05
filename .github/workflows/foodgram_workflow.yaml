@@ -4,12 +4,12 @@ on: [push]
 
 jobs:
 
+
   pull_to_VM:
     name: pull new data in virtual machine
     runs-on: ubuntu-latest
     steps:
-      - 
-        name: executing remote ssh commands to deploy
+      - name: executing remote ssh commands to deploy
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
@@ -18,13 +18,12 @@ jobs:
           script: |
             cd ~/foodgram-project/
             sudo git pull
-  
+
   deploy:
     runs-on: ubuntu-latest
     needs: pull_to_VM
     steps:
-      - 
-        name: executing remote ssh commands to deploy
+      - name: executing remote ssh commands to deploy
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
@@ -37,29 +36,14 @@ jobs:
             sudo docker-compose build
             sudo docker-compose up -d
             sudo docker-compose exec -T web python manage.py collectstatic --clear --noinput
-            
+
   send_message:
     runs-on: ubuntu-latest
     needs: deploy
     steps:
-      - 
-        name: send message
+      - name: send message
         uses: appleboy/telegram-action@master
         with:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
           message: ${{ github.workflow }} успешно выполнен!
-
-  test:
-    runs-on: ubuntu-latest
-    needs: send_message
-    steps:
-      -
-        name: executing remote ssh commands to deploy
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST1 }}
-          username: ${{ secrets.USER1 }}
-          key: ${{ secrets.SSH_KEY1 }}
-          script: |
-            cd ~/foodgram-project/
