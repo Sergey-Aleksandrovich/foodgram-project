@@ -25,7 +25,7 @@ class IngredientList(models.Model):
 class Ingredients(models.Model):
     kind = models.ForeignKey(IngredientList, on_delete=models.CASCADE,
                              related_name='ingredients')
-    quantity = models.IntegerField()
+    quantity = models.PositiveSmallIntegerField()
 
     def __str__(self):
         return f'{self.kind.title} {self.quantity}, {self.kind.dimension}'
