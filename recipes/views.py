@@ -60,7 +60,6 @@ def request_add_ingredients(data):
 
 def check_tegs(request):
     result = []
-    print(request.GET.get('breakfast'))
     if request.GET.get('breakfast') == 'True':
         result.append(1)
     if request.GET.get('lunch') == 'True':
@@ -72,8 +71,8 @@ def check_tegs(request):
 
 def index_view(request):
     tags = check_tegs(request)
-    if not (request.GET.get('breakfast') and request.GET.get(
-            'lunch') and request.GET.get('dinner')):
+    if not (request.GET.get('breakfast') or request.GET.get(
+            'lunch') or request.GET.get('dinner')):
         return redirect(f'/?breakfast=True&lunch=True&dinner=True')
     recipe_list = Recipes.objects.filter(tags__in=tags).select_related(
         'author').order_by(
