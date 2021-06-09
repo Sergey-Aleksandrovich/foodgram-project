@@ -1,4 +1,4 @@
-Django==3.1.2
+Django==3.1.10
 djangorestframework==3.12.2
 fpdf==1.7.2
 Pillow==8.0.0
